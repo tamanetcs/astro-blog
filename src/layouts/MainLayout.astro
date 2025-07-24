@@ -13,6 +13,7 @@ const { title = 'Astro page' } = Astro.props
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
+        <link rel="alternate" type="application/rss+xml" title="Abraham’s Blog" href={new URL('rss.xml', Astro.site)} />
         <title>{title}</title>
         <ClientRouter />
     </head>
