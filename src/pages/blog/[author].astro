@@ -1,0 +1,47 @@
+---
+import type { GetStaticPaths } from 'astro'
+import { getCollection } from 'astro:content'
+import Image from 'astro/components/Image.astro'
+import TypedBlogPost from '@components/TypedBlogPost.astro'
+import MainLayout from '../../layouts/MainLayout.astro'
+import { siteConfig } from 'src/config/site-config'
+export const getStaticPaths = (async () => {
+    const [authors, posts] = await Promise.all([getCollection('author'), getCollection('blog')])
+    return authors.map((author) => ({
+        params: { author: author.id },
+        props: { blogPosts: posts.filter((post) => post.data.author.id === author.id), author: author.data }
+    }))
+}) satisfies GetStaticPaths
+const { blogPosts, author } = Astro.props
+---
+
+<MainLayout>
+    <section class="bg-gray-900">
+        <div class="container mx-auto px-6 py-10">
+            <h1 class="text-3xl font-semibold text-white capitalize lg:text-4xl">
+                {siteConfig.title}
+            </h1>
+            <a href="/">Regresar</a>
+
+            <div class="text-md mt-2 mb-0 flex flex-row text-gray-400">
+                <Image class="rounded-full" src={author.avatar} alt={author.name} width={50} height={50} />
+
+                <div class="ml-5 flex flex-col">
+                    <a>{author.name}</a>
+                    <span>Listado de todos mis posts</span>
+                </div>
+            </div>
+
+            <div class="mt-8 grid grid-cols-1 gap-8 md:mt-16 md:grid-cols-2">
+                {blogPosts.map((post) => <TypedBlogPost post={post} />)}
+            </div>
+        </div>
+    </section>
+</MainLayout>
+
+<style is:global>
+    @reference "tailwindcss";
+    a {
+        @apply text-blue-500 hover:underline;
+    }
+</style>

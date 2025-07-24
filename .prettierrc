@@ -1,0 +1,14 @@
+{
+    "plugins": ["prettier-plugin-astro", "prettier-plugin-tailwindcss"],
+    "astroAllowShorthand": true,
+    "tailwindConfig": "./tailwind.config.js",
+    "tabWidth": 4,
+    "semi": false,
+    "singleQuote": true,
+    "printWidth": 120,
+    "bracketSameLine": true,
+    "jsxBracketSameLine": true,
+    "bracketSpacing": true,
+    "htmlWhitespaceSensitivity": "ignore",
+    "trailingComma": "none"
+}

@@ -1,10 +1,9 @@
 ---
-import { getCollection } from 'astro:content'
-import TypedBlogPost from '@components/TypedBlogPost.astro'
+import BlogPost from 'src/config/components/BlogPost.astro'
 import { siteConfig } from 'src/config/site-config'
 import MainLayout from 'src/layouts/MainLayout.astro'
 
-const blogPosts = await getCollection('blog', (post) => post.data.isDraft === false)
+const post = await Astro.glob('./posts-old/*.{md,mdx}')
 ---
 
 <MainLayout title="Abraham's Blog">
@@ -14,18 +13,11 @@ const blogPosts = await getCollection('blog', (post) => post.data.isDraft === fa
             <h1 class="text-3xl font-semibold text-gray-800 capitalize lg:text-4xl dark:text-white">
                 {siteConfig.title}
             </h1>
-            <a class="mr-2" href="/blog/1">Blog paginado</a>
-            <a class="mr-2" href="/authors">Autores</a>
+
             <div class="mt-8 grid grid-cols-1 gap-8 md:mt-16 md:grid-cols-2">
-                {blogPosts.map((post) => <TypedBlogPost {post} />)}
+                <!-- <BlogPost /> -->
+                {post.map((post) => <BlogPost {...post} />)}
             </div>
         </div>
     </section>
 </MainLayout>
-
-<style>
-    @reference "tailwindcss";
-    a {
-        @apply cursor-pointer rounded p-2 text-blue-500 hover:underline;
-    }
-</style>
